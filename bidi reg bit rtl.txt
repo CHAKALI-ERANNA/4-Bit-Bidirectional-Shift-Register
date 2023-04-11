@@ -1,0 +1,33 @@
+`timescale 1ns / 1ps
+
+module bidirectional_shift_register(right_Lleft,Sin,clk,rst,Q
+
+    );
+    input right_Lleft,Sin,clk,rst;
+    output reg [0:3]Q;
+    //reg [0:3]D;
+    always@(posedge clk,negedge rst)
+        begin
+            if(!rst)
+            begin
+                Q <= 0;
+            end
+            else
+            begin
+                if(right_Lleft)    //shift right
+                begin
+                    Q[0] <= Sin;
+                    Q[1] <= Q[0];
+                    Q[2] <= Q[1];
+                    Q[3] <= Q[2];
+                end
+                else if(!right_Lleft)   //shift left
+                begin
+                    Q[3] <= Sin;
+                    Q[2] <= Q[3];
+                    Q[1] <= Q[2];
+                    Q[0] <= Q[1];
+                end
+            end
+        end
+    

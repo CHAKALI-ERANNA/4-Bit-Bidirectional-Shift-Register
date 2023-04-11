@@ -1,0 +1,37 @@
+`timescale 1ns / 1ps
+
+module bidirectional_shift_register_TB();
+    reg Sin,clk,rst,right_Lleft;
+    wire [0:3]Q;
+    
+    always #5 clk = ~clk;
+    bidirectional_shift_register uut(right_Lleft,Sin,clk,rst,Q);
+    initial begin
+        clk <= 0;
+        rst <= 1;
+        Sin <= 0;
+        right_Lleft <= 1;
+    end
+    initial begin
+            rst <= 0;
+        #15 rst <= 1;
+            right_Lleft <= 1;
+        //shift right operation
+        #10 Sin <= 1;
+        #10 Sin <= 0;
+        #10 Sin <= 1;
+        #10 Sin <= 0;
+        #10 Sin <= 1;
+        
+        #40 rst <= 0;
+        #20 rst <= 1;
+            right_Lleft <= 0;
+        #10 Sin <= 1; 
+        #10 Sin <= 1; 
+        #10 Sin <= 0; 
+        #10 Sin <= 1; 
+        #10 Sin <= 0; 
+        #10 Sin <= 1; 
+        #100 $finish;
+    end
+endmodule
